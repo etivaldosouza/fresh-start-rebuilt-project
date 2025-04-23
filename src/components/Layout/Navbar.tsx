@@ -6,9 +6,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const Navbar = () => {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-primary/90 backdrop-blur-sm border-b border-primary/10">
       <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center space-x-2">
+        <Link to="/" className="flex items-center space-x-2 text-white">
           <Home className="w-6 h-6" />
           <span className="font-bold text-lg">Meu App</span>
         </Link>
@@ -16,7 +16,7 @@ const Navbar = () => {
         {/* Menu Mobile */}
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden">
+            <Button variant="ghost" size="icon" className="md:hidden text-white hover:text-white/90">
               <Menu className="w-5 h-5" />
             </Button>
           </SheetTrigger>
@@ -31,7 +31,7 @@ const Navbar = () => {
 
         {/* Menu Desktop */}
         <div className="hidden md:flex items-center space-x-6">
-          <Link to="/" className="text-sm font-medium">
+          <Link to="/" className="text-sm font-medium text-white hover:text-white/90">
             Home
           </Link>
         </div>
