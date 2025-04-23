@@ -13,18 +13,18 @@ const Footer = () => {
         </div>
         <div className="flex items-center space-x-6">
           <a
-            href="tel:+5500000000000"
+            href="tel:+5598981878948"
             className="text-sm text-white/80 hover:text-white transition-colors flex items-center gap-2"
           >
             <Phone className="w-4 h-4" />
-            (00) 0000-0000
+            (98) 98187-8948
           </a>
           <a
-            href="mailto:contato@kfemprestimos.com.br"
+            href="mailto:kfemprestimos@gmail.com"
             className="text-sm text-white/80 hover:text-white transition-colors flex items-center gap-2"
           >
             <Mail className="w-4 h-4" />
-            contato@kfemprestimos.com.br
+            kfemprestimos@gmail.com
           </a>
         </div>
       </div>

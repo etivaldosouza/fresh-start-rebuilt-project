@@ -17,13 +17,30 @@ const Index = () => {
           Taxas competitivas e atendimento personalizado.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <Button size="lg" className="gap-2">
-            <Phone className="w-4 h-4" />
-            Fale Conosco
+          <Button 
+            asChild
+            size="lg" 
+            className="gap-2"
+          >
+            <a href="tel:+5598981878948">
+              <Phone className="w-4 h-4" />
+              Fale Conosco
+            </a>
           </Button>
-          <Button variant="outline" size="lg" className="gap-2">
-            <MessageSquare className="w-4 h-4" />
-            Simular Agora
+          <Button 
+            asChild
+            variant="outline" 
+            size="lg" 
+            className="gap-2"
+          >
+            <a 
+              href="https://wa.me/5598981878948" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              <MessageSquare className="w-4 h-4" />
+              Simular Agora
+            </a>
           </Button>
         </div>
       </section>

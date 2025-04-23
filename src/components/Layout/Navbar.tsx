@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Home, Menu, Phone, Users, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -51,9 +50,16 @@ const Navbar = () => {
             <MapPin className="w-4 h-4" />
             Localização
           </Link>
-          <Button variant="outline" size="sm" className="text-white border-white/20 hover:bg-white/10">
-            <Phone className="w-4 h-4 mr-2" />
-            Fale Conosco
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-white border-white/20 hover:bg-white/10"
+            asChild
+          >
+            <a href="tel:+5598981878948" className="flex items-center">
+              <Phone className="w-4 h-4 mr-2" />
+              Fale Conosco
+            </a>
           </Button>
         </div>
       </div>
