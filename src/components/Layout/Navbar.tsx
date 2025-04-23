@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Home, Menu, Phone } from "lucide-react";
+import { Home, Menu, Phone, Users, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -21,11 +21,17 @@ const Navbar = () => {
           </SheetTrigger>
           <SheetContent side="right">
             <nav className="flex flex-col gap-4">
-              <Link to="/" className="text-lg font-medium">
+              <Link to="/" className="text-lg font-medium flex items-center gap-2">
+                <Home className="w-4 h-4" />
                 Início
               </Link>
-              <Link to="#contato" className="text-lg font-medium">
-                Contato
+              <Link to="/sobre" className="text-lg font-medium flex items-center gap-2">
+                <Users className="w-4 h-4" />
+                Sobre Nós
+              </Link>
+              <Link to="/localizacao" className="text-lg font-medium flex items-center gap-2">
+                <MapPin className="w-4 h-4" />
+                Localização
               </Link>
             </nav>
           </SheetContent>
@@ -33,11 +39,17 @@ const Navbar = () => {
 
         {/* Menu Desktop */}
         <div className="hidden md:flex items-center space-x-6">
-          <Link to="/" className="text-sm font-medium text-white hover:text-white/90">
+          <Link to="/" className="text-sm font-medium text-white hover:text-white/90 flex items-center gap-2">
+            <Home className="w-4 h-4" />
             Início
           </Link>
-          <Link to="#contato" className="text-sm font-medium text-white hover:text-white/90">
-            Contato
+          <Link to="/sobre" className="text-sm font-medium text-white hover:text-white/90 flex items-center gap-2">
+            <Users className="w-4 h-4" />
+            Sobre Nós
+          </Link>
+          <Link to="/localizacao" className="text-sm font-medium text-white hover:text-white/90 flex items-center gap-2">
+            <MapPin className="w-4 h-4" />
+            Localização
           </Link>
           <Button variant="outline" size="sm" className="text-white border-white/20 hover:bg-white/10">
             <Phone className="w-4 h-4 mr-2" />
