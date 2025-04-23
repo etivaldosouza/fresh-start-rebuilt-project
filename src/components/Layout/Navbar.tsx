@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Home, Menu } from "lucide-react";
+import { Home, Menu, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -9,8 +9,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-primary/90 backdrop-blur-sm border-b border-primary/10">
       <div className="container flex items-center justify-between h-16">
         <Link to="/" className="flex items-center space-x-2 text-white">
-          <Home className="w-6 h-6" />
-          <span className="font-bold text-lg">Meu App</span>
+          <img src="/mnt/data/logokf.png" alt="KF Empréstimos" className="h-8" />
         </Link>
 
         {/* Menu Mobile */}
@@ -23,7 +22,10 @@ const Navbar = () => {
           <SheetContent side="right">
             <nav className="flex flex-col gap-4">
               <Link to="/" className="text-lg font-medium">
-                Home
+                Início
+              </Link>
+              <Link to="#contato" className="text-lg font-medium">
+                Contato
               </Link>
             </nav>
           </SheetContent>
@@ -32,8 +34,15 @@ const Navbar = () => {
         {/* Menu Desktop */}
         <div className="hidden md:flex items-center space-x-6">
           <Link to="/" className="text-sm font-medium text-white hover:text-white/90">
-            Home
+            Início
           </Link>
+          <Link to="#contato" className="text-sm font-medium text-white hover:text-white/90">
+            Contato
+          </Link>
+          <Button variant="outline" size="sm" className="text-white border-white/20 hover:bg-white/10">
+            <Phone className="w-4 h-4 mr-2" />
+            Fale Conosco
+          </Button>
         </div>
       </div>
     </nav>
