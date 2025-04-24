@@ -1,6 +1,4 @@
 
-import { Users, Shield } from "lucide-react";
-
 const About = () => {
   return (
     <div className="flex flex-col gap-8">

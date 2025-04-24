@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -151,45 +152,6 @@ const Index = () => {
                 </Button>
               </form>
             </Form>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* Features Section */}
-      <section className="grid md:grid-cols-3 gap-8">
-        <Card className="bg-white/5 backdrop-blur border-primary/10">
-          <CardContent className="pt-6 text-center">
-            <div className="mb-4 flex justify-center">
-              <ShieldCheck className="h-12 w-12 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Segurança Garantida</h3>
-            <p className="text-gray-500 dark:text-gray-400">
-              Processo 100% seguro e transparente, com toda documentação necessária.
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white/5 backdrop-blur border-primary/10">
-          <CardContent className="pt-6 text-center">
-            <div className="mb-4 flex justify-center">
-              <MessageSquare className="h-12 w-12 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Atendimento Personalizado</h3>
-            <p className="text-gray-500 dark:text-gray-400">
-              Consultores especializados para encontrar a melhor solução para você.
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white/5 backdrop-blur border-primary/10">
-          <CardContent className="pt-6 text-center">
-            <div className="mb-4 flex justify-center">
-              <Phone className="h-12 w-12 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Facilidade de Contato</h3>
-            <p className="text-gray-500 dark:text-gray-400">
-              Entre em contato facilmente pelos nossos canais de atendimento.
-            </p>
           </CardContent>
         </Card>
       </section>
