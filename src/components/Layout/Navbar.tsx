@@ -1,5 +1,6 @@
+
 import { Link } from "react-router-dom";
-import { Home, Menu, Phone, Users, MapPin } from "lucide-react";
+import { Home, Menu, Users, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -50,17 +51,6 @@ const Navbar = () => {
             <MapPin className="w-4 h-4" />
             Localização
           </Link>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="text-white border-white/20 hover:bg-white/10"
-            asChild
-          >
-            <a href="tel:+5598981878948" className="flex items-center">
-              <Phone className="w-4 h-4 mr-2" />
-              Fale Conosco
-            </a>
-          </Button>
         </div>
       </div>
     </nav>

@@ -1,5 +1,5 @@
 
-import { Users } from "lucide-react";
+import { Users, Shield } from "lucide-react";
 
 const About = () => {
   return (
@@ -7,8 +7,8 @@ const About = () => {
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-4">Sobre Nós</h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          A KF Empréstimos é especializada em empréstimos consignados, oferecendo as melhores 
-          condições do mercado com transparência e segurança.
+          Somos uma empresa certificada pela FEBRABAN com mais de 15 anos atuando no 
+          mercado de concessão de crédito consignado.
         </p>
       </div>
 
