@@ -6,7 +6,11 @@ const Footer = () => {
     <footer className="border-t border-primary/10 py-6 md:py-0 bg-primary/90">
       <div className="container flex flex-col md:flex-row items-center justify-between gap-4 md:h-16">
         <div className="flex items-center gap-2">
-          <img src="/mnt/data/logokf.png" alt="KF Empréstimos" className="h-8" />
+          <img 
+            src="/lovable-uploads/bc0c7039-437a-45d4-91ec-5a887f5ed6ca.png" 
+            alt="KF Empréstimos" 
+            className="h-8" 
+          />
           <p className="text-sm text-white/90">
             © {new Date().getFullYear()} KF Empréstimos. Todos os direitos reservados.
           </p>

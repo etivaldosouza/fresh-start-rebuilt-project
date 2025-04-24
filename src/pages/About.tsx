@@ -1,19 +1,17 @@
-
 const About = () => {
   return (
     <div className="flex flex-col gap-8">
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-4">Sobre Nós</h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Somos uma empresa certificada pela FEBRABAN com mais de 15 anos atuando no 
-          mercado de concessão de crédito consignado.
+          Somos uma empresa certificada pela FEBRABAN com mais de 15 anos atuando com concessão de crédito consignado.
         </p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 items-center">
         <div className="space-y-4">
           <img 
-            src="/mnt/data/logokf.png" 
+            src="/lovable-uploads/bc0c7039-437a-45d4-91ec-5a887f5ed6ca.png" 
             alt="KF Empréstimos Logo" 
             className="h-24 mx-auto md:mx-0"
           />

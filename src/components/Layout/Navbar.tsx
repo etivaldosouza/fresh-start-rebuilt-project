@@ -9,7 +9,11 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-primary/90 backdrop-blur-sm border-b border-primary/10">
       <div className="container flex items-center justify-between h-16">
         <Link to="/" className="flex items-center space-x-2 text-white">
-          <img src="/mnt/data/logokf.png" alt="KF Empréstimos" className="h-8" />
+          <img 
+            src="/lovable-uploads/bc0c7039-437a-45d4-91ec-5a887f5ed6ca.png" 
+            alt="KF Empréstimos" 
+            className="h-8" 
+          />
         </Link>
 
         {/* Menu Mobile */}
