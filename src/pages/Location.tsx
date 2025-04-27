@@ -17,14 +17,14 @@ const Location = () => {
           <div className="space-y-2">
             <h2 className="text-2xl font-semibold">Endereço</h2>
             <p className="text-muted-foreground">
-              Rua Doutor Mario de Paiva, 379 - Centro
+              Av Leste Oeste, Loja 1-A
               <br />
-              Guariba - SP
+              Cohatrac 1, São Luís - MA
             </p>
           </div>
           <Button asChild className="w-full md:w-auto">
             <a 
-              href="https://maps.app.goo.gl/nLDquGWEPRer2BQx6" 
+              href="https://maps.app.goo.gl/PVj9msaMT88HBuqu8" 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex items-center gap-2"
@@ -36,7 +36,7 @@ const Location = () => {
         </div>
         <div className="aspect-video rounded-lg shadow-lg overflow-hidden">
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3718.7793735726414!2d-48.31516792378094!3d-21.359475880690966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b93f4c3d2d6ec7%3A0x2d82893e8abc4b13!2sR.%20Dr.%20M%C3%A1rio%20de%20Paiva%2C%20379%20-%20Centro%2C%20Guariba%20-%20SP%2C%2014840-000!5e0!3m2!1spt-BR!2sbr!4v1708439868811!5m2!1spt-BR!2sbr"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.817744735612!2d-44.219770625547604!3d-2.5599657980430354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7f68ff920d7d033%3A0xe605eaa85bfff2be!2sAv.%20Leste%20Oeste%2C%201-A%20-%20Cohab%20Anil%20III%2C%20S%C3%A3o%20Lu%C3%ADs%20-%20MA%2C%2065051-480!5e0!3m2!1spt-BR!2sbr!4v1711394514975!5m2!1spt-BR!2sbr"
             width="100%"
             height="100%"
             style={{ border: 0 }}

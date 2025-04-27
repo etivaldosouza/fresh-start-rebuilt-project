@@ -10,35 +10,47 @@ import { toast } from "@/components/ui/sonner";
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
+      if (isRegistering) {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password
+        });
 
-      if (error) throw error;
+        if (error) throw error;
 
-      // Verificar se o usuário é um admin
-      const { data: adminUser } = await supabase
-        .from('admin_users')
-        .select('*')
-        .eq('id', data.user?.id)
-        .single();
+        toast.success("Cadastro realizado com sucesso! Aguarde a aprovação do administrador.");
+        setIsRegistering(false);
+      } else {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
 
-      if (!adminUser) {
-        await supabase.auth.signOut();
-        throw new Error('Acesso negado');
+        if (error) throw error;
+
+        const { data: adminUser } = await supabase
+          .from('admin_users')
+          .select('*')
+          .eq('id', data.user?.id)
+          .single();
+
+        if (!adminUser) {
+          await supabase.auth.signOut();
+          throw new Error('Acesso negado');
+        }
+
+        toast.success("Login realizado com sucesso");
+        navigate('/admin');
       }
-
-      toast.success("Login realizado com sucesso");
-      navigate('/admin');
     } catch (error: any) {
-      toast.error(error.message || "Não foi possível fazer login");
+      toast.error(error.message || "Não foi possível completar a operação");
     }
   };
 
@@ -46,10 +58,10 @@ const Login = () => {
     <div className="flex justify-center items-center min-h-screen">
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Login Administrativo</CardTitle>
+          <CardTitle>{isRegistering ? 'Cadastro' : 'Login'} Administrativo</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleAuth} className="space-y-4">
             <div>
               <label htmlFor="email" className="block mb-2">E-mail</label>
               <Input 
@@ -71,7 +83,15 @@ const Login = () => {
               />
             </div>
             <Button type="submit" className="w-full">
-              Entrar
+              {isRegistering ? 'Cadastrar' : 'Entrar'}
+            </Button>
+            <Button 
+              type="button" 
+              variant="outline" 
+              className="w-full"
+              onClick={() => setIsRegistering(!isRegistering)}
+            >
+              {isRegistering ? 'Já tem uma conta? Entre' : 'Não tem uma conta? Cadastre-se'}
             </Button>
           </form>
         </CardContent>

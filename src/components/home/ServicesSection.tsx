@@ -15,7 +15,7 @@ const ServicesSection = () => {
             </li>
             <li className="flex items-center gap-2">
               <ArrowRight className="w-4 h-4 text-primary" />
-              Até 84 meses para pagar
+              Até 120 meses para pagar
             </li>
             <li className="flex items-center gap-2">
               <ArrowRight className="w-4 h-4 text-primary" />
