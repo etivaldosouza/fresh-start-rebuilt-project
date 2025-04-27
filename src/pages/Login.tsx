@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from 'react-router-dom';
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/components/ui/sonner";
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -35,18 +35,10 @@ const Login = () => {
         throw new Error('Acesso negado');
       }
 
-      toast({
-        title: "Login realizado com sucesso",
-        description: "Você está sendo redirecionado para o painel administrativo"
-      });
-
+      toast.success("Login realizado com sucesso");
       navigate('/admin');
     } catch (error: any) {
-      toast({
-        title: "Erro no login",
-        description: error.message || "Não foi possível fazer login",
-        variant: "destructive"
-      });
+      toast.error(error.message || "Não foi possível fazer login");
     }
   };
 
