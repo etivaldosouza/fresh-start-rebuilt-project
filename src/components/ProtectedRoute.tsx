@@ -16,14 +16,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
       
       if (!data.session) return null;
 
-      // Verificar se o usuário é um admin
-      const { data: adminUser } = await supabase
-        .from('admin_users')
-        .select('*')
-        .eq('id', data.session.user.id)
-        .single();
-
-      return adminUser ? data.session : null;
+      // Permitir qualquer usuário autenticado, já que o registro
+      // está agora disponível para qualquer pessoa
+      return data.session;
     }
   });
 
