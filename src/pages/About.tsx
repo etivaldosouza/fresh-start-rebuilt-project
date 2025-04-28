@@ -1,4 +1,3 @@
-
 const About = () => {
   return (
     <div className="flex flex-col gap-8">
@@ -32,15 +31,11 @@ const About = () => {
         </div>
         <div>
           <div className="aspect-video rounded-lg shadow-lg overflow-hidden">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7971.804411370986!2d-44.2094057!3d-2.5387755!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7f69101f8f83d87%3A0xb0215005050b3b3a!2zRW1wcsOpc3RpbW8gRsOhY2lsIEUgUsOhcGlkbw!5e0!3m2!1spt-BR!2sbr!4v1745797605635!5m2!1spt-BR!2sbr"
-              width="100%"
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen
-              loading="lazy" 
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+            <img 
+              src="/lovable-uploads/fefa84c5-cb8b-41cd-9332-baf68fe36478.png"
+              alt="Karine Torres - KF Empréstimos"
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </div>

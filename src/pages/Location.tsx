@@ -1,4 +1,3 @@
-
 import { MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -36,14 +35,14 @@ const Location = () => {
         </div>
         <div className="aspect-video rounded-lg shadow-lg overflow-hidden">
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.817744735612!2d-44.219770625547604!3d-2.5599657980430354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7f68ff920d7d033%3A0xe605eaa85bfff2be!2sAv.%20Leste%20Oeste%2C%201-A%20-%20Cohab%20Anil%20III%2C%20S%C3%A3o%20Lu%C3%ADs%20-%20MA%2C%2065051-480!5e0!3m2!1spt-BR!2sbr!4v1711394514975!5m2!1spt-BR!2sbr"
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7971.804411370986!2d-44.2094057!3d-2.5387755!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7f69101f8f83d87%3A0xb0215005050b3b3a!2zRW1wcsOpc3RpbW8gRsOhY2lsIEUgUsOhcGlkbw!5e0!3m2!1spt-BR!2sbr!4v1745797605635!5m2!1spt-BR!2sbr"
             width="100%"
-            height="100%"
-            style={{ border: 0 }}
+            height="100%" 
+            style={{ border: 0 }} 
             allowFullScreen
-            loading="lazy"
+            loading="lazy" 
             referrerPolicy="no-referrer-when-downgrade"
-          />
+          ></iframe>
         </div>
       </div>
     </div>
