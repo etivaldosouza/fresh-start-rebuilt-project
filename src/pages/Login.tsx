@@ -35,19 +35,6 @@ const Login = () => {
 
         if (error) throw error;
 
-        const { data: adminUser, error: adminError } = await supabase
-          .from('admin_users')
-          .select('*')
-          .eq('id', data.user?.id)
-          .maybeSingle();
-
-        if (adminError) throw adminError;
-        
-        if (!adminUser) {
-          await supabase.auth.signOut();
-          throw new Error('Acesso não autorizado');
-        }
-
         toast.success("Login realizado com sucesso");
         navigate('/admin');
       }

@@ -13,17 +13,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     queryKey: ['session'],
     queryFn: async () => {
       const { data } = await supabase.auth.getSession();
-      
-      if (!data.session) return null;
-
-      // Verificar se o usuário é um admin
-      const { data: adminUser } = await supabase
-        .from('admin_users')
-        .select('*')
-        .eq('id', data.session.user.id)
-        .maybeSingle();
-
-      return adminUser ? data.session : null;
+      return data.session;
     }
   });
 
