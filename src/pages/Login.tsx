@@ -25,7 +25,7 @@ const Login = () => {
 
         if (error) throw error;
 
-        toast.success("Cadastro realizado com sucesso! Aguarde a aprovação do administrador.");
+        toast.success("Cadastro realizado com sucesso! Você já pode fazer login.");
         setIsRegistering(false);
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -35,15 +35,17 @@ const Login = () => {
 
         if (error) throw error;
 
-        const { data: adminUser } = await supabase
+        const { data: adminUser, error: adminError } = await supabase
           .from('admin_users')
           .select('*')
           .eq('id', data.user?.id)
-          .single();
+          .maybeSingle();
 
+        if (adminError) throw adminError;
+        
         if (!adminUser) {
           await supabase.auth.signOut();
-          throw new Error('Acesso negado');
+          throw new Error('Acesso não autorizado');
         }
 
         toast.success("Login realizado com sucesso");
