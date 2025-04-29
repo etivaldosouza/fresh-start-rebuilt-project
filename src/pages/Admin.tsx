@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SimulationRequestsTable } from "@/components/admin/SimulationRequestsTable";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const queryClient = new QueryClient();
 
@@ -13,9 +14,16 @@ const Admin = () => {
           <CardTitle>Painel Administrativo</CardTitle>
         </CardHeader>
         <CardContent>
-          <QueryClientProvider client={queryClient}>
-            <SimulationRequestsTable />
-          </QueryClientProvider>
+          <Tabs defaultValue="simulacoes">
+            <TabsList className="mb-4">
+              <TabsTrigger value="simulacoes">Solicitações de Simulação</TabsTrigger>
+            </TabsList>
+            <TabsContent value="simulacoes">
+              <QueryClientProvider client={queryClient}>
+                <SimulationRequestsTable />
+              </QueryClientProvider>
+            </TabsContent>
+          </Tabs>
         </CardContent>
       </Card>
     </div>

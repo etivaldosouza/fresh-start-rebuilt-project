@@ -1,3 +1,4 @@
+
 const About = () => {
   return (
     <div className="flex flex-col gap-8">
@@ -30,11 +31,11 @@ const About = () => {
           </div>
         </div>
         <div>
-          <div className="aspect-video rounded-lg shadow-lg overflow-hidden">
+          <div className="aspect-auto h-full w-full rounded-lg shadow-lg overflow-hidden">
             <img 
               src="/lovable-uploads/fefa84c5-cb8b-41cd-9332-baf68fe36478.png"
               alt="Karine Torres - KF Empréstimos"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           </div>
         </div>

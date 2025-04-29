@@ -38,6 +38,10 @@ export const SimulationRequestsTable = () => {
     return <div>Carregando...</div>;
   }
 
+  if (!requests || requests.length === 0) {
+    return <div>Nenhuma solicitação de simulação encontrada.</div>;
+  }
+
   return (
     <div className="rounded-md border">
       <Table>
