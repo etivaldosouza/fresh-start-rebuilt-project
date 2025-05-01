@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -11,6 +11,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
+import { toast } from "@/components/ui/sonner";
 
 type SimulationRequest = {
   id: string;
@@ -21,10 +22,9 @@ type SimulationRequest = {
 };
 
 export const SimulationRequestsTable = () => {
-  const { data: requests, isLoading } = useQuery({
+  const { data: requests, isLoading, error, refetch } = useQuery({
     queryKey: ["simulation-requests"],
     queryFn: async () => {
-      // Log to help with debugging
       console.log("Fetching simulation requests from Supabase");
       
       const { data, error } = await supabase
@@ -42,8 +42,37 @@ export const SimulationRequestsTable = () => {
     },
   });
 
+  useEffect(() => {
+    if (error) {
+      console.error("Error loading simulation requests:", error);
+      toast.error("Erro ao carregar solicitações de simulação");
+    }
+  }, [error]);
+
+  // Setup real-time listener for new simulation requests
+  useEffect(() => {
+    const channel = supabase
+      .channel('public:simulation_requests')
+      .on('postgres_changes', 
+        { event: 'INSERT', schema: 'public', table: 'simulation_requests' }, 
+        (payload) => {
+          console.log('New simulation request received:', payload);
+          refetch();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [refetch]);
+
   if (isLoading) {
     return <div>Carregando...</div>;
+  }
+
+  if (error) {
+    return <div>Erro ao carregar solicitações. Por favor, tente novamente.</div>;
   }
 
   if (!requests || requests.length === 0) {
