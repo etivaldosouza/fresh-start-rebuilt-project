@@ -29,6 +29,7 @@ const ContactForm = () => {
 
   const onSubmit = async (data: FormSchema) => {
     try {
+      // Make sure we're inserting into the simulation_requests table
       const { error } = await supabase
         .from('simulation_requests')
         .insert([{
@@ -37,7 +38,10 @@ const ContactForm = () => {
           phone: data.phone
         }]);
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error submitting form:", error);
+        throw error;
+      }
 
       toast.success("Solicitação enviada com sucesso!");
       form.reset();

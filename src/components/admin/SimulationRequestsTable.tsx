@@ -24,12 +24,20 @@ export const SimulationRequestsTable = () => {
   const { data: requests, isLoading } = useQuery({
     queryKey: ["simulation-requests"],
     queryFn: async () => {
+      // Log to help with debugging
+      console.log("Fetching simulation requests from Supabase");
+      
       const { data, error } = await supabase
         .from("simulation_requests")
         .select("*")
         .order("created_at", { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching simulation requests:", error);
+        throw error;
+      }
+      
+      console.log("Simulation requests data:", data);
       return data as SimulationRequest[];
     },
   });
@@ -54,7 +62,7 @@ export const SimulationRequestsTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {requests?.map((request) => (
+          {requests.map((request) => (
             <TableRow key={request.id}>
               <TableCell>
                 {format(new Date(request.created_at), "dd/MM/yyyy HH:mm")}

@@ -4,7 +4,16 @@ import { SimulationRequestsTable } from "@/components/admin/SimulationRequestsTa
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const queryClient = new QueryClient();
+// Create a new QueryClient instance that will be used exclusively for this component
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      staleTime: 30000,
+    },
+  },
+});
 
 const Admin = () => {
   return (
