@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -12,6 +12,10 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 import { toast } from "@/components/ui/sonner";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 type SimulationRequest = {
   id: string;
@@ -22,15 +26,18 @@ type SimulationRequest = {
 };
 
 export const SimulationRequestsTable = () => {
+  const [manualRetryCount, setManualRetryCount] = useState(0);
+
   const { data: requests, isLoading, error, refetch } = useQuery({
-    queryKey: ["simulation-requests"],
+    queryKey: ["simulation-requests", manualRetryCount],
     queryFn: async () => {
       try {
         console.log("Fetching simulation requests from Supabase");
         
+        // Use a simpler direct approach for fetching
         const { data, error } = await supabase
           .from("simulation_requests")
-          .select("*")
+          .select("id, name, email, phone, created_at")
           .order("created_at", { ascending: false });
 
         if (error) {
@@ -45,9 +52,13 @@ export const SimulationRequestsTable = () => {
         throw err;
       }
     },
-    retry: 1,
+    retry: 2,
     retryDelay: 1000,
   });
+
+  const handleManualRetry = () => {
+    setManualRetryCount(prev => prev + 1);
+  };
 
   useEffect(() => {
     if (error) {
@@ -75,11 +86,36 @@ export const SimulationRequestsTable = () => {
   }, [refetch]);
 
   if (isLoading) {
-    return <div>Carregando...</div>;
+    return (
+      <div className="space-y-4">
+        {[...Array(5)].map((_, index) => (
+          <div key={index} className="flex items-center space-x-4">
+            <Skeleton className="h-12 w-[15%]" />
+            <Skeleton className="h-12 w-[25%]" />
+            <Skeleton className="h-12 w-[30%]" />
+            <Skeleton className="h-12 w-[20%]" />
+          </div>
+        ))}
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Erro ao carregar solicitações. Por favor, tente novamente.</div>;
+    return (
+      <div className="space-y-4">
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Erro ao carregar solicitações</AlertTitle>
+          <AlertDescription>
+            Não foi possível acessar os dados das solicitações de simulação. 
+            Isso pode ocorrer devido a um problema de permissão no banco de dados.
+          </AlertDescription>
+        </Alert>
+        <Button onClick={handleManualRetry} variant="outline">
+          Tentar novamente
+        </Button>
+      </div>
+    );
   }
 
   if (!requests || requests.length === 0) {
