@@ -27,6 +27,7 @@ type SimulationRequest = {
 
 export const SimulationRequestsTable = () => {
   const [manualRetryCount, setManualRetryCount] = useState(0);
+  const [autoRefresh, setAutoRefresh] = useState(false);
 
   const { data: requests, isLoading, error, refetch } = useQuery({
     queryKey: ["simulation-requests", manualRetryCount],
@@ -34,7 +35,9 @@ export const SimulationRequestsTable = () => {
       try {
         console.log("Fetching simulation requests from Supabase");
         
-        // Use a simpler direct approach for fetching
+        // Limpar mensagens de erro anteriores
+        toast.dismiss();
+        
         const { data, error } = await supabase
           .from("simulation_requests")
           .select("id, name, email, phone, created_at")
@@ -52,13 +55,30 @@ export const SimulationRequestsTable = () => {
         throw err;
       }
     },
-    retry: 2,
-    retryDelay: 1000,
+    retry: 3, // Aumentamos para 3 tentativas
+    retryDelay: 1500,
   });
 
   const handleManualRetry = () => {
+    toast.info("Atualizando dados...");
     setManualRetryCount(prev => prev + 1);
   };
+
+  // Auto-refresh a cada 30 segundos quando ativado
+  useEffect(() => {
+    let intervalId: number | undefined;
+    
+    if (autoRefresh) {
+      intervalId = window.setInterval(() => {
+        console.log("Auto-refreshing data...");
+        refetch();
+      }, 30000);
+    }
+    
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [autoRefresh, refetch]);
 
   useEffect(() => {
     if (error) {
@@ -76,6 +96,7 @@ export const SimulationRequestsTable = () => {
         (payload) => {
           console.log('New simulation request received:', payload);
           refetch();
+          toast.success("Nova solicitação de simulação recebida!");
         }
       )
       .subscribe();
@@ -108,7 +129,7 @@ export const SimulationRequestsTable = () => {
           <AlertTitle>Erro ao carregar solicitações</AlertTitle>
           <AlertDescription>
             Não foi possível acessar os dados das solicitações de simulação. 
-            Isso pode ocorrer devido a um problema de permissão no banco de dados.
+            Por favor, tente novamente ou verifique sua conexão.
           </AlertDescription>
         </Alert>
         <Button onClick={handleManualRetry} variant="outline">
@@ -119,33 +140,63 @@ export const SimulationRequestsTable = () => {
   }
 
   if (!requests || requests.length === 0) {
-    return <div>Nenhuma solicitação de simulação encontrada.</div>;
+    return (
+      <div className="text-center p-6">
+        <p className="text-lg text-gray-500 mb-4">Nenhuma solicitação de simulação encontrada.</p>
+        <div className="flex justify-center gap-4">
+          <Button onClick={handleManualRetry} variant="outline">
+            Atualizar dados
+          </Button>
+          <Button 
+            onClick={() => setAutoRefresh(!autoRefresh)} 
+            variant={autoRefresh ? "default" : "outline"}
+          >
+            {autoRefresh ? "Desativar" : "Ativar"} atualização automática
+          </Button>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Data</TableHead>
-            <TableHead>Nome</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Telefone</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {requests.map((request) => (
-            <TableRow key={request.id}>
-              <TableCell>
-                {format(new Date(request.created_at), "dd/MM/yyyy HH:mm")}
-              </TableCell>
-              <TableCell>{request.name}</TableCell>
-              <TableCell>{request.email}</TableCell>
-              <TableCell>{request.phone}</TableCell>
+    <div className="space-y-4">
+      <div className="flex justify-end gap-4 mb-4">
+        <Button onClick={handleManualRetry} variant="outline" size="sm">
+          Atualizar dados
+        </Button>
+        <Button 
+          onClick={() => setAutoRefresh(!autoRefresh)} 
+          variant={autoRefresh ? "default" : "outline"}
+          size="sm"
+        >
+          {autoRefresh ? "Desativar" : "Ativar"} atualização automática
+        </Button>
+      </div>
+      
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Data</TableHead>
+              <TableHead>Nome</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Telefone</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {requests.map((request) => (
+              <TableRow key={request.id}>
+                <TableCell>
+                  {format(new Date(request.created_at), "dd/MM/yyyy HH:mm")}
+                </TableCell>
+                <TableCell>{request.name}</TableCell>
+                <TableCell>{request.email}</TableCell>
+                <TableCell>{request.phone}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };
