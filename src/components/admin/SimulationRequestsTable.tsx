@@ -25,21 +25,28 @@ export const SimulationRequestsTable = () => {
   const { data: requests, isLoading, error, refetch } = useQuery({
     queryKey: ["simulation-requests"],
     queryFn: async () => {
-      console.log("Fetching simulation requests from Supabase");
-      
-      const { data, error } = await supabase
-        .from("simulation_requests")
-        .select("*")
-        .order("created_at", { ascending: false });
+      try {
+        console.log("Fetching simulation requests from Supabase");
+        
+        const { data, error } = await supabase
+          .from("simulation_requests")
+          .select("*")
+          .order("created_at", { ascending: false });
 
-      if (error) {
-        console.error("Error fetching simulation requests:", error);
-        throw error;
+        if (error) {
+          console.error("Error fetching simulation requests:", error);
+          throw error;
+        }
+        
+        console.log("Simulation requests data:", data);
+        return data as SimulationRequest[];
+      } catch (err) {
+        console.error("Error in simulation requests query:", err);
+        throw err;
       }
-      
-      console.log("Simulation requests data:", data);
-      return data as SimulationRequest[];
     },
+    retry: 1,
+    retryDelay: 1000,
   });
 
   useEffect(() => {

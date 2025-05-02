@@ -8,7 +8,7 @@ const PortabilitySection = () => {
         <Badge className="mb-4">Novo</Badge>
         <h2 className="text-3xl font-bold mb-4">Portabilidade Bancária</h2>
         <p className="text-gray-500 max-w-2xl mx-auto">
-          Transfira seu empréstimo para a KF e aproveite taxas menores. 
+          Faça portabilidade e aproveite taxas menores. 
           Processo simples e rápido, sem burocracia.
         </p>
       </div>

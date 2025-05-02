@@ -8,6 +8,7 @@ import { toast } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -18,6 +19,8 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 const ContactForm = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -28,20 +31,23 @@ const ContactForm = () => {
   });
 
   const onSubmit = async (data: FormSchema) => {
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
+    
     try {
       console.log("Submitting form data:", data);
       
       // Salvar email no localStorage para usar na página de login
       localStorage.setItem("lastSimulationEmail", data.email);
       
-      const { error, data: insertedData } = await supabase
+      const { error } = await supabase
         .from('simulation_requests')
         .insert([{
           name: data.name,
           email: data.email,
           phone: data.phone
-        }])
-        .select();
+        }]);
 
       if (error) {
         console.error("Error submitting form:", error);
@@ -49,12 +55,14 @@ const ContactForm = () => {
         return;
       }
 
-      console.log("Form submitted successfully, data:", insertedData);
+      console.log("Form submitted successfully");
       toast.success("Solicitação enviada com sucesso!");
       form.reset();
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("Erro ao enviar solicitação. Por favor, tente novamente.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -104,8 +112,8 @@ const ContactForm = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
-                Solicitar Simulação
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting ? "Enviando..." : "Solicitar Simulação"}
               </Button>
             </form>
           </Form>
