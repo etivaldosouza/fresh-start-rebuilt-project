@@ -31,6 +31,9 @@ const ContactForm = () => {
     try {
       console.log("Submitting form data:", data);
       
+      // Salvar email no localStorage para usar na página de login
+      localStorage.setItem("lastSimulationEmail", data.email);
+      
       const { error, data: insertedData } = await supabase
         .from('simulation_requests')
         .insert([{
