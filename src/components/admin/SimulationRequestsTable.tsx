@@ -15,7 +15,7 @@ import { toast } from "@/components/ui/sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, RefreshCcw } from "lucide-react";
 
 type SimulationRequest = {
   id: string;
@@ -29,34 +29,64 @@ export const SimulationRequestsTable = () => {
   const [manualRetryCount, setManualRetryCount] = useState(0);
   const [autoRefresh, setAutoRefresh] = useState(false);
 
-  const { data: requests, isLoading, error, refetch } = useQuery({
+  const { 
+    data: requests, 
+    isLoading, 
+    error, 
+    refetch,
+    isError
+  } = useQuery({
     queryKey: ["simulation-requests", manualRetryCount],
     queryFn: async () => {
       try {
         console.log("Fetching simulation requests from Supabase");
         
-        // Limpar mensagens de erro anteriores
-        toast.dismiss();
+        // Verificar se o usuário está autenticado
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
         
-        const { data, error } = await supabase
-          .from("simulation_requests")
-          .select("id, name, email, phone, created_at")
-          .order("created_at", { ascending: false });
-
-        if (error) {
-          console.error("Error fetching simulation requests:", error);
-          throw error;
+        if (sessionError || !sessionData.session) {
+          console.error("User not authenticated:", sessionError);
+          throw new Error("Usuário não autenticado");
         }
         
-        console.log("Simulation requests data:", data);
-        return data as SimulationRequest[];
-      } catch (err) {
+        // Buscar dados com retry interno
+        let attempts = 0;
+        const maxAttempts = 3;
+        let lastError;
+        
+        while (attempts < maxAttempts) {
+          try {
+            const { data, error } = await supabase
+              .from("simulation_requests")
+              .select("id, name, email, phone, created_at")
+              .order("created_at", { ascending: false });
+
+            if (error) {
+              console.error(`Attempt ${attempts + 1}: Error fetching simulation requests:`, error);
+              lastError = error;
+              attempts++;
+              await new Promise(resolve => setTimeout(resolve, 1000)); // Wait before retry
+              continue;
+            }
+            
+            console.log("Simulation requests data:", data);
+            return data as SimulationRequest[];
+          } catch (err) {
+            console.error(`Attempt ${attempts + 1}: Exception in fetch:`, err);
+            lastError = err;
+            attempts++;
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Wait before retry
+          }
+        }
+        
+        throw lastError || new Error("Falha ao buscar dados após múltiplas tentativas");
+      } catch (err: any) {
         console.error("Error in simulation requests query:", err);
         throw err;
       }
     },
-    retry: 3, // Aumentamos para 3 tentativas
-    retryDelay: 1500,
+    retry: 3,
+    retryDelay: 2000,
   });
 
   const handleManualRetry = () => {
@@ -121,7 +151,7 @@ export const SimulationRequestsTable = () => {
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
       <div className="space-y-4">
         <Alert variant="destructive">
@@ -132,8 +162,8 @@ export const SimulationRequestsTable = () => {
             Por favor, tente novamente ou verifique sua conexão.
           </AlertDescription>
         </Alert>
-        <Button onClick={handleManualRetry} variant="outline">
-          Tentar novamente
+        <Button onClick={handleManualRetry} variant="outline" className="flex items-center gap-2">
+          <RefreshCcw className="h-4 w-4" /> Tentar novamente
         </Button>
       </div>
     );
@@ -144,8 +174,8 @@ export const SimulationRequestsTable = () => {
       <div className="text-center p-6">
         <p className="text-lg text-gray-500 mb-4">Nenhuma solicitação de simulação encontrada.</p>
         <div className="flex justify-center gap-4">
-          <Button onClick={handleManualRetry} variant="outline">
-            Atualizar dados
+          <Button onClick={handleManualRetry} variant="outline" className="flex items-center gap-2">
+            <RefreshCcw className="h-4 w-4" /> Atualizar dados
           </Button>
           <Button 
             onClick={() => setAutoRefresh(!autoRefresh)} 
@@ -161,8 +191,8 @@ export const SimulationRequestsTable = () => {
   return (
     <div className="space-y-4">
       <div className="flex justify-end gap-4 mb-4">
-        <Button onClick={handleManualRetry} variant="outline" size="sm">
-          Atualizar dados
+        <Button onClick={handleManualRetry} variant="outline" size="sm" className="flex items-center gap-2">
+          <RefreshCcw className="h-4 w-4" /> Atualizar dados
         </Button>
         <Button 
           onClick={() => setAutoRefresh(!autoRefresh)} 
