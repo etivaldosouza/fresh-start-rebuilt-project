@@ -61,15 +61,7 @@ const Navbar = () => {
                 <MapPin className="w-4 h-4" />
                 Localização
               </Link>
-              {isLoggedIn ? (
-                <Link to="/admin" className="text-lg font-medium flex items-center gap-2">
-                  Admin
-                </Link>
-              ) : (
-                <Link to="/login" className="text-lg font-medium flex items-center gap-2">
-                  Login Admin
-                </Link>
-              )}
+              {/* O link de login admin foi removido do menu */}
             </nav>
           </SheetContent>
         </Sheet>
@@ -88,15 +80,7 @@ const Navbar = () => {
             <MapPin className="w-4 h-4" />
             Localização
           </Link>
-          {isLoggedIn ? (
-            <Link to="/admin" className="text-sm font-medium text-white hover:text-white/90 flex items-center gap-2">
-              Admin
-            </Link>
-          ) : (
-            <Link to="/login" className="text-sm font-medium text-white hover:text-white/90 flex items-center gap-2">
-              Login Admin
-            </Link>
-          )}
+          {/* O link de login admin foi removido do menu */}
         </div>
       </div>
     </nav>

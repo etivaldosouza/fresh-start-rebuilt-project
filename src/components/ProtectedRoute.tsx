@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
 import { Session } from '@supabase/supabase-js';
 import { toast } from "@/components/ui/sonner";
+import { Loader2 } from "lucide-react";
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -55,7 +56,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-[50vh]">
-        <p className="text-lg">Verificando autenticação...</p>
+        <div className="flex flex-col items-center gap-2">
+          <Loader2 className="h-8 w-8 animate-spin" />
+          <p className="text-lg">Verificando autenticação...</p>
+        </div>
       </div>
     );
   }
