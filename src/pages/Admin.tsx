@@ -16,7 +16,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      retry: 5,
+      retry: 3,
       staleTime: 30000,
     },
   },
@@ -24,32 +24,48 @@ const queryClient = new QueryClient({
 
 const Admin = () => {
   const [loading, setLoading] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  // Verificar autenticação do usuário
+  // Verificar autenticação do usuário e obter dados
   useEffect(() => {
     const checkAuth = async () => {
-      const { data } = await supabase.auth.getSession();
-      
-      if (!data.session) {
-        toast.error("Você precisa estar logado para acessar esta página");
+      try {
+        console.log("Admin: Checking authentication");
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error("Error getting session:", error);
+          toast.error("Erro ao verificar sua autenticação");
+          navigate("/login");
+          return;
+        }
+        
+        if (!data.session) {
+          console.log("No active session found");
+          toast.error("Você precisa estar logado para acessar esta página");
+          navigate("/login");
+          return;
+        }
+        
+        console.log("User authenticated:", data.session.user.email);
+        setUserEmail(data.session.user.email);
+        setLoading(false);
+      } catch (err) {
+        console.error("Exception in checkAuth:", err);
+        toast.error("Erro ao verificar autenticação");
         navigate("/login");
-        return;
       }
-      
-      setAuthenticated(true);
-      setLoading(false);
     };
     
     checkAuth();
 
     // Configurar listener para mudanças no estado de autenticação
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log("Auth state changed:", event);
       if (event === "SIGNED_OUT") {
         navigate("/login");
       }
-      setAuthenticated(!!session);
     });
 
     return () => {
@@ -77,16 +93,18 @@ const Admin = () => {
     );
   }
 
-  // Só mostrar o conteúdo se o usuário estiver autenticado
-  if (!authenticated) {
-    return null;
-  }
-
   return (
     <div className="container py-8">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Painel Administrativo</CardTitle>
+          <div>
+            <CardTitle>Painel Administrativo</CardTitle>
+            {userEmail && (
+              <p className="text-sm text-muted-foreground mt-1">
+                Logado como: {userEmail}
+              </p>
+            )}
+          </div>
           <Button 
             variant="outline" 
             onClick={handleLogout}

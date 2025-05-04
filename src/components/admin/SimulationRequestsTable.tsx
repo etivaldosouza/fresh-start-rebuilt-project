@@ -41,52 +41,33 @@ export const SimulationRequestsTable = () => {
       try {
         console.log("Fetching simulation requests from Supabase");
         
-        // Verificar se o usuário está autenticado
-        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-        
-        if (sessionError || !sessionData.session) {
-          console.error("User not authenticated:", sessionError);
-          throw new Error("Usuário não autenticado");
+        // Verificar sessão do usuário
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (!sessionData.session) {
+          console.log("No active session found");
+          throw new Error("Sessão expirada. Por favor, faça login novamente.");
         }
-        
-        // Buscar dados com retry interno
-        let attempts = 0;
-        const maxAttempts = 3;
-        let lastError;
-        
-        while (attempts < maxAttempts) {
-          try {
-            const { data, error } = await supabase
-              .from("simulation_requests")
-              .select("id, name, email, phone, created_at")
-              .order("created_at", { ascending: false });
 
-            if (error) {
-              console.error(`Attempt ${attempts + 1}: Error fetching simulation requests:`, error);
-              lastError = error;
-              attempts++;
-              await new Promise(resolve => setTimeout(resolve, 1000)); // Wait before retry
-              continue;
-            }
-            
-            console.log("Simulation requests data:", data);
-            return data as SimulationRequest[];
-          } catch (err) {
-            console.error(`Attempt ${attempts + 1}: Exception in fetch:`, err);
-            lastError = err;
-            attempts++;
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Wait before retry
-          }
+        // Buscar dados da tabela
+        const { data, error } = await supabase
+          .from("simulation_requests")
+          .select("id, name, email, phone, created_at")
+          .order("created_at", { ascending: false });
+
+        if (error) {
+          console.error("Error fetching simulation requests:", error);
+          throw new Error(error.message || "Erro ao buscar dados");
         }
         
-        throw lastError || new Error("Falha ao buscar dados após múltiplas tentativas");
+        console.log("Successfully fetched simulation requests:", data);
+        return data as SimulationRequest[];
       } catch (err: any) {
-        console.error("Error in simulation requests query:", err);
-        throw err;
+        console.error("Error in query function:", err);
+        throw new Error(err.message || "Erro ao acessar os dados");
       }
     },
-    retry: 3,
-    retryDelay: 2000,
+    retry: 2,
+    retryDelay: 1500,
   });
 
   const handleManualRetry = () => {
@@ -113,12 +94,12 @@ export const SimulationRequestsTable = () => {
   useEffect(() => {
     if (error) {
       console.error("Error loading simulation requests:", error);
-      toast.error("Erro ao carregar solicitações de simulação");
     }
   }, [error]);
 
   // Setup real-time listener for new simulation requests
   useEffect(() => {
+    console.log("Setting up realtime listener for simulation_requests");
     const channel = supabase
       .channel('public:simulation_requests')
       .on('postgres_changes', 
@@ -132,6 +113,7 @@ export const SimulationRequestsTable = () => {
       .subscribe();
 
     return () => {
+      console.log("Removing realtime listener");
       supabase.removeChannel(channel);
     };
   }, [refetch]);

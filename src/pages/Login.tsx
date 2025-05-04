@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from 'react-router-dom';
 import { toast } from "@/components/ui/sonner";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, LogOut } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -14,10 +14,26 @@ const Login = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [latestRequests, setLatestRequests] = useState<{ name: string, email: string, phone: string }[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   
-  // Carregar o último email usado na simulação
+  // Verificar se o usuário já está logado ao carregar a página
   useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
+        if (data.session) {
+          console.log("User is already logged in");
+          setIsLoggedIn(true);
+        }
+      } catch (error) {
+        console.error("Error checking login status:", error);
+      }
+    };
+    
+    checkLoginStatus();
+    
+    // Carregar o último email usado na simulação
     const savedEmail = localStorage.getItem("lastSimulationEmail");
     if (savedEmail) {
       setEmail(savedEmail);
@@ -72,10 +88,24 @@ const Login = () => {
         if (error) throw error;
 
         toast.success("Login realizado com sucesso");
+        setIsLoggedIn(true);
         navigate('/admin');
       }
     } catch (error: any) {
       toast.error(error.message || "Não foi possível completar a operação");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      setLoading(true);
+      await supabase.auth.signOut();
+      toast.success("Logout realizado com sucesso");
+      setIsLoggedIn(false);
+    } catch (error: any) {
+      toast.error(error.message || "Erro ao fazer logout");
     } finally {
       setLoading(false);
     }
@@ -99,47 +129,75 @@ const Login = () => {
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <CardTitle className="text-center">
-              {isRegistering ? 'Cadastro' : 'Login'} Administrativo
+              {isLoggedIn ? 'Usuário Autenticado' : isRegistering ? 'Cadastro' : 'Login'} Administrativo
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleAuth} className="space-y-4">
-              <div>
-                <label htmlFor="email" className="block mb-2">E-mail</label>
-                <Input 
-                  type="email" 
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required 
-                />
+            {isLoggedIn ? (
+              <div className="space-y-4">
+                <p className="text-center text-sm text-muted-foreground mb-4">
+                  Você já está logado no sistema.
+                </p>
+                <div className="flex flex-col gap-2">
+                  <Button onClick={() => navigate('/admin')}>
+                    Ir para o Painel Admin
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={handleLogout}
+                    className="flex items-center gap-2"
+                    disabled={loading}
+                  >
+                    <LogOut className="h-4 w-4" />
+                    {loading ? "Saindo..." : "Sair do Sistema"}
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    onClick={handleGoBack}
+                  >
+                    Voltar para a Página Inicial
+                  </Button>
+                </div>
               </div>
-              <div>
-                <label htmlFor="password" className="block mb-2">Senha</label>
-                <Input 
-                  type="password" 
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required 
-                />
-              </div>
-              <Button 
-                type="submit" 
-                className="w-full"
-                disabled={loading}
-              >
-                {loading ? 'Processando...' : isRegistering ? 'Cadastrar' : 'Entrar'}
-              </Button>
-              <Button 
-                type="button" 
-                variant="outline" 
-                className="w-full"
-                onClick={() => setIsRegistering(!isRegistering)}
-              >
-                {isRegistering ? 'Já tem uma conta? Entre' : 'Não tem uma conta? Cadastre-se'}
-              </Button>
-            </form>
+            ) : (
+              <form onSubmit={handleAuth} className="space-y-4">
+                <div>
+                  <label htmlFor="email" className="block mb-2">E-mail</label>
+                  <Input 
+                    type="email" 
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required 
+                  />
+                </div>
+                <div>
+                  <label htmlFor="password" className="block mb-2">Senha</label>
+                  <Input 
+                    type="password" 
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required 
+                  />
+                </div>
+                <Button 
+                  type="submit" 
+                  className="w-full"
+                  disabled={loading}
+                >
+                  {loading ? 'Processando...' : isRegistering ? 'Cadastrar' : 'Entrar'}
+                </Button>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={() => setIsRegistering(!isRegistering)}
+                >
+                  {isRegistering ? 'Já tem uma conta? Entre' : 'Não tem uma conta? Cadastre-se'}
+                </Button>
+              </form>
+            )}
           </CardContent>
         </Card>
         
