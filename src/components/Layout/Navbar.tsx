@@ -3,8 +3,32 @@ import { Link } from "react-router-dom";
 import { Home, Menu, Users, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Verificar se o usuário está autenticado
+  useEffect(() => {
+    // Verificar sessão atual
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setIsLoggedIn(!!data.session);
+    };
+    
+    checkSession();
+
+    // Configurar listener para mudanças no estado de autenticação
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsLoggedIn(!!session);
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-primary/90 backdrop-blur-sm border-b border-primary/10">
       <div className="container flex items-center justify-between h-16">
@@ -37,6 +61,15 @@ const Navbar = () => {
                 <MapPin className="w-4 h-4" />
                 Localização
               </Link>
+              {isLoggedIn ? (
+                <Link to="/admin" className="text-lg font-medium flex items-center gap-2">
+                  Admin
+                </Link>
+              ) : (
+                <Link to="/login" className="text-lg font-medium flex items-center gap-2">
+                  Login Admin
+                </Link>
+              )}
             </nav>
           </SheetContent>
         </Sheet>
@@ -55,6 +88,15 @@ const Navbar = () => {
             <MapPin className="w-4 h-4" />
             Localização
           </Link>
+          {isLoggedIn ? (
+            <Link to="/admin" className="text-sm font-medium text-white hover:text-white/90 flex items-center gap-2">
+              Admin
+            </Link>
+          ) : (
+            <Link to="/login" className="text-sm font-medium text-white hover:text-white/90 flex items-center gap-2">
+              Login Admin
+            </Link>
+          )}
         </div>
       </div>
     </nav>

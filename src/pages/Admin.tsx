@@ -4,11 +4,12 @@ import { SimulationRequestsTable } from "@/components/admin/SimulationRequestsTa
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { InfoIcon } from "lucide-react";
+import { InfoIcon, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/sonner";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 // Create a new QueryClient instance that will be used exclusively for this component
 const queryClient = new QueryClient({
@@ -56,6 +57,17 @@ const Admin = () => {
     };
   }, [navigate]);
 
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast.success("Logout realizado com sucesso");
+      navigate("/login");
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+      toast.error("Erro ao fazer logout");
+    }
+  };
+
   // Mostrar mensagem de carregamento enquanto verifica autenticação
   if (loading) {
     return (
@@ -73,8 +85,16 @@ const Admin = () => {
   return (
     <div className="container py-8">
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Painel Administrativo</CardTitle>
+          <Button 
+            variant="outline" 
+            onClick={handleLogout}
+            className="flex items-center gap-2"
+          >
+            <LogOut className="h-4 w-4" />
+            Sair
+          </Button>
         </CardHeader>
         <CardContent>
           <Alert className="mb-4">

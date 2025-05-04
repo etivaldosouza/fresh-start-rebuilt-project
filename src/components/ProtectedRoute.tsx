@@ -1,24 +1,46 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
-import { useQuery } from '@tanstack/react-query';
+import { Session } from '@supabase/supabase-js';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
 };
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { data: session, isLoading } = useQuery({
-    queryKey: ['session'],
-    queryFn: async () => {
-      const { data } = await supabase.auth.getSession();
-      return data.session;
-    }
-  });
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  if (isLoading) {
-    return <div>Carregando...</div>;
+  useEffect(() => {
+    // Configurar listener para mudanças no estado de autenticação
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        setLoading(false);
+      }
+    );
+
+    // Verificar sessão atual
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+      setLoading(false);
+    };
+    
+    checkSession();
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[50vh]">
+        <p className="text-lg">Verificando autenticação...</p>
+      </div>
+    );
   }
 
   if (!session) {
