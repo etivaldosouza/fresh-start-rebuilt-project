@@ -41,14 +41,14 @@ export const SimulationRequestsTable = () => {
       try {
         console.log("Fetching simulation requests from Supabase");
         
-        // Verificar sessão do usuário
+        // Verificar sessão do usuário - exigir autenticação para acessar os dados
         const { data: sessionData } = await supabase.auth.getSession();
         if (!sessionData.session) {
           console.log("No active session found");
-          throw new Error("Sessão expirada. Por favor, faça login novamente.");
+          throw new Error("Acesso não autorizado. Faça login para visualizar os dados.");
         }
 
-        // Buscar dados da tabela
+        // Buscar dados da tabela apenas para usuários autenticados
         const { data, error } = await supabase
           .from("simulation_requests")
           .select("id, name, email, phone, created_at")
@@ -141,7 +141,7 @@ export const SimulationRequestsTable = () => {
           <AlertTitle>Erro ao carregar solicitações</AlertTitle>
           <AlertDescription>
             Não foi possível acessar os dados das solicitações de simulação. 
-            Por favor, tente novamente ou verifique sua conexão.
+            Por favor, tente novamente ou verifique sua autenticação.
           </AlertDescription>
         </Alert>
         <Button onClick={handleManualRetry} variant="outline" className="flex items-center gap-2">
