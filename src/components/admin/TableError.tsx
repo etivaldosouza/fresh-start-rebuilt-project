@@ -1,8 +1,8 @@
 
 import React from "react";
-import { Alert, AlertCircle, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { RefreshCcw } from "lucide-react";
+import { AlertCircle, RefreshCcw } from "lucide-react";
 
 type TableErrorProps = {
   onRetry: () => void;

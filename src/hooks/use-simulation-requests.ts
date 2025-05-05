@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -35,7 +34,7 @@ export const useSimulationRequests = () => {
           throw new Error("Acesso não autorizado. Faça login para visualizar os dados.");
         }
 
-        // Buscar dados da tabela apenas para usuários autenticados
+        // Buscar dados da tabela de solicitações diretamente, sem verificar admin_users
         const { data, error } = await supabase
           .from("simulation_requests")
           .select("id, name, email, phone, created_at")
