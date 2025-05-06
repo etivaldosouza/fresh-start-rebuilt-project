@@ -18,6 +18,7 @@ export const TableError = ({ onRetry }: TableErrorProps) => {
           Não foi possível acessar os dados das solicitações de simulação.
           Isso pode ser devido a problemas de conexão ou permissões no banco de dados.
           Por favor, tente executar a função RPC no SQL Editor do Supabase antes de continuar.
+          Copie o código SQL do arquivo src/sql/create_rpc_function.sql e execute-o no SQL Editor.
         </AlertDescription>
       </Alert>
       <div className="flex flex-col sm:flex-row gap-3">

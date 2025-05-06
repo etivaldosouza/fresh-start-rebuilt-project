@@ -37,7 +37,7 @@ export const useSimulationRequests = () => {
 
         // Abordagem direta contornando política RLS - sem joins ou referências à tabela admin_users
         // Isso ignora completamente o mecanismo problemático de RLS
-        const { data, error } = await supabase.rpc('get_all_simulation_requests');
+        const { data, error } = await supabase.rpc<SimulationRequest[]>('get_all_simulation_requests');
         
         if (error) {
           console.error("Error fetching simulation requests:", error);
@@ -50,7 +50,7 @@ export const useSimulationRequests = () => {
         }
         
         console.log("Successfully fetched simulation requests:", data);
-        return data as SimulationRequest[];
+        return data;
       } catch (err: any) {
         console.error("Error in query function:", err);
         throw new Error(err.message || "Erro ao acessar os dados");
