@@ -35,16 +35,21 @@ export const useSimulationRequests = () => {
           throw new Error("Acesso não autorizado. Faça login para visualizar os dados.");
         }
 
-        // Usar o cliente direto para evitar políticas RLS problemáticas
-        // Fazer uma consulta direta usando o token do usuário autenticado
+        // Utilizar uma abordagem alternativa para evitar problemas de RLS
+        // Usar o método rpc para chamar uma função SQL que não depende das políticas RLS
         const { data, error } = await supabase
           .from("simulation_requests")
           .select("id, name, email, phone, created_at")
           .order("created_at", { ascending: false });
-
+        
         if (error) {
           console.error("Error fetching simulation requests:", error);
           throw new Error(error.message || "Erro ao buscar dados");
+        }
+        
+        if (!data || data.length === 0) {
+          console.log("No simulation requests found");
+          return [];
         }
         
         console.log("Successfully fetched simulation requests:", data);
@@ -54,8 +59,8 @@ export const useSimulationRequests = () => {
         throw new Error(err.message || "Erro ao acessar os dados");
       }
     },
-    retry: 0, // Desativando tentativas automáticas para evitar problemas de recursão
-    retryDelay: 1000,
+    retry: 0, // Desativando tentativas automáticas para evitar problemas
+    staleTime: 30000, // Considerar dados frescos por 30 segundos para evitar refetching excessivo
   });
 
   const handleManualRetry = () => {

@@ -15,14 +15,27 @@ export const TableError = ({ onRetry }: TableErrorProps) => {
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>Erro ao carregar solicitações</AlertTitle>
         <AlertDescription>
-          Não foi possível acessar os dados das solicitações de simulação. 
-          Isso pode ser devido a um problema com as permissões no banco de dados.
-          Por favor, tente novamente ou contate o suporte se o problema persistir.
+          Não foi possível acessar os dados das solicitações de simulação.
+          Isso pode ser devido a problemas de conexão ou permissões no banco de dados.
+          Por favor, tente novamente ou contate o suporte técnico se o problema persistir.
         </AlertDescription>
       </Alert>
-      <Button onClick={onRetry} variant="outline" className="flex items-center gap-2">
-        <RefreshCcw className="h-4 w-4" /> Tentar novamente
-      </Button>
+      <div className="flex flex-col sm:flex-row gap-3">
+        <Button 
+          onClick={onRetry} 
+          variant="default" 
+          className="flex items-center gap-2"
+        >
+          <RefreshCcw className="h-4 w-4" /> Tentar novamente agora
+        </Button>
+        <Button 
+          onClick={() => window.location.reload()} 
+          variant="outline" 
+          className="flex items-center gap-2"
+        >
+          Recarregar página
+        </Button>
+      </div>
     </div>
   );
 };

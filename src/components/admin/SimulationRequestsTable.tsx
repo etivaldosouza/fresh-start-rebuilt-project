@@ -6,6 +6,9 @@ import { TableError } from "./TableError";
 import { TableEmpty } from "./TableEmpty";
 import { TableLoading } from "./TableLoading";
 import { RequestsDataTable } from "./RequestsDataTable";
+import { toast } from "@/components/ui/sonner";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { InfoIcon } from "lucide-react";
 
 export const SimulationRequestsTable = () => {
   const {
@@ -17,6 +20,13 @@ export const SimulationRequestsTable = () => {
     setAutoRefresh,
   } = useSimulationRequests();
 
+  React.useEffect(() => {
+    if (isError) {
+      console.log("Error state detected in SimulationRequestsTable");
+      toast.error("Erro ao carregar solicitações. Tente novamente.");
+    }
+  }, [isError]);
+
   if (isLoading) {
     return <TableLoading />;
   }
@@ -27,11 +37,19 @@ export const SimulationRequestsTable = () => {
 
   if (!requests || requests.length === 0) {
     return (
-      <TableEmpty
-        onManualRefresh={handleManualRetry}
-        autoRefresh={autoRefresh}
-        setAutoRefresh={setAutoRefresh}
-      />
+      <>
+        <Alert className="mb-4">
+          <InfoIcon className="h-4 w-4" />
+          <AlertDescription>
+            Não há solicitações de simulação no momento. As novas solicitações aparecerão aqui automaticamente.
+          </AlertDescription>
+        </Alert>
+        <TableEmpty
+          onManualRefresh={handleManualRetry}
+          autoRefresh={autoRefresh}
+          setAutoRefresh={setAutoRefresh}
+        />
+      </>
     );
   }
 
