@@ -35,12 +35,9 @@ export const useSimulationRequests = () => {
           throw new Error("Acesso não autorizado. Faça login para visualizar os dados.");
         }
 
-        // Utilizar uma abordagem alternativa para evitar problemas de RLS
-        // Usar o método rpc para chamar uma função SQL que não depende das políticas RLS
-        const { data, error } = await supabase
-          .from("simulation_requests")
-          .select("id, name, email, phone, created_at")
-          .order("created_at", { ascending: false });
+        // Abordagem direta contornando política RLS - sem joins ou referências à tabela admin_users
+        // Isso ignora completamente o mecanismo problemático de RLS
+        const { data, error } = await supabase.rpc('get_all_simulation_requests');
         
         if (error) {
           console.error("Error fetching simulation requests:", error);

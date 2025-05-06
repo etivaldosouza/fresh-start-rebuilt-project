@@ -17,7 +17,7 @@ export const TableError = ({ onRetry }: TableErrorProps) => {
         <AlertDescription>
           Não foi possível acessar os dados das solicitações de simulação.
           Isso pode ser devido a problemas de conexão ou permissões no banco de dados.
-          Por favor, tente novamente ou contate o suporte técnico se o problema persistir.
+          Por favor, tente executar a função RPC no SQL Editor do Supabase antes de continuar.
         </AlertDescription>
       </Alert>
       <div className="flex flex-col sm:flex-row gap-3">
