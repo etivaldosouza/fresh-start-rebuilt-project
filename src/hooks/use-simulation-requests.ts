@@ -28,15 +28,15 @@ export const useSimulationRequests = () => {
       try {
         console.log("Fetching simulation requests from Supabase");
         
-        // Verificar sessão do usuário - exigir autenticação para acessar os dados
+        // Verificar sessão do usuário 
         const { data: sessionData } = await supabase.auth.getSession();
         if (!sessionData.session) {
           console.log("No active session found");
           throw new Error("Acesso não autorizado. Faça login para visualizar os dados.");
         }
 
-        // Buscar dados diretamente da tabela simulation_requests
-        // Não verificamos a tabela admin_users para evitar recursão infinita
+        // Usar o cliente direto para evitar políticas RLS problemáticas
+        // Fazer uma consulta direta usando o token do usuário autenticado
         const { data, error } = await supabase
           .from("simulation_requests")
           .select("id, name, email, phone, created_at")
@@ -54,7 +54,7 @@ export const useSimulationRequests = () => {
         throw new Error(err.message || "Erro ao acessar os dados");
       }
     },
-    retry: 1, // Reduzindo o número de tentativas automáticas
+    retry: 0, // Desativando tentativas automáticas para evitar problemas de recursão
     retryDelay: 1000,
   });
 

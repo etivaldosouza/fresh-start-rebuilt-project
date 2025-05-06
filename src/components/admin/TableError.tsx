@@ -16,7 +16,8 @@ export const TableError = ({ onRetry }: TableErrorProps) => {
         <AlertTitle>Erro ao carregar solicitações</AlertTitle>
         <AlertDescription>
           Não foi possível acessar os dados das solicitações de simulação. 
-          Por favor, tente novamente ou verifique sua autenticação.
+          Isso pode ser devido a um problema com as permissões no banco de dados.
+          Por favor, tente novamente ou contate o suporte se o problema persistir.
         </AlertDescription>
       </Alert>
       <Button onClick={onRetry} variant="outline" className="flex items-center gap-2">
