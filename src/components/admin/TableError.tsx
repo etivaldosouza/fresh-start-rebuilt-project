@@ -16,9 +16,17 @@ export const TableError = ({ onRetry }: TableErrorProps) => {
         <AlertTitle>Erro ao carregar solicitações</AlertTitle>
         <AlertDescription>
           Não foi possível acessar os dados das solicitações de simulação.
-          Isso pode ser devido a problemas de conexão ou permissões no banco de dados.
-          Por favor, tente executar a função RPC no SQL Editor do Supabase antes de continuar.
-          Copie o código SQL do arquivo src/sql/create_rpc_function.sql e execute-o no SQL Editor.
+          Isso pode ser devido à função RPC ainda não ter sido criada no banco de dados Supabase.
+          Por favor, acesse o SQL Editor do Supabase e execute o seguinte código:
+          <pre className="mt-2 p-2 bg-gray-100 rounded text-sm overflow-auto">
+            {`CREATE OR REPLACE FUNCTION public.get_all_simulation_requests()
+RETURNS SETOF public.simulation_requests
+LANGUAGE sql
+SECURITY DEFINER
+AS $$
+  SELECT * FROM public.simulation_requests ORDER BY created_at DESC;
+$$;`}
+          </pre>
         </AlertDescription>
       </Alert>
       <div className="flex flex-col sm:flex-row gap-3">

@@ -10,6 +10,14 @@ import { toast } from "@/components/ui/sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { InfoIcon } from "lucide-react";
 
+type SimulationRequest = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  created_at: string;
+};
+
 export const SimulationRequestsTable = () => {
   const {
     requests,
@@ -35,7 +43,7 @@ export const SimulationRequestsTable = () => {
     return <TableError onRetry={handleManualRetry} />;
   }
 
-  if (!requests || requests.length === 0) {
+  if (!requests || (Array.isArray(requests) && requests.length === 0)) {
     return (
       <>
         <Alert className="mb-4">
@@ -60,7 +68,7 @@ export const SimulationRequestsTable = () => {
         autoRefresh={autoRefresh}
         setAutoRefresh={setAutoRefresh}
       />
-      <RequestsDataTable requests={requests} />
+      <RequestsDataTable requests={requests as SimulationRequest[]} />
     </div>
   );
 };
