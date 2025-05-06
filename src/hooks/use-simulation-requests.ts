@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -34,7 +35,8 @@ export const useSimulationRequests = () => {
           throw new Error("Acesso não autorizado. Faça login para visualizar os dados.");
         }
 
-        // Buscar dados da tabela de solicitações diretamente, sem verificar admin_users
+        // Buscar dados diretamente da tabela simulation_requests
+        // Não verificamos a tabela admin_users para evitar recursão infinita
         const { data, error } = await supabase
           .from("simulation_requests")
           .select("id, name, email, phone, created_at")
@@ -52,8 +54,8 @@ export const useSimulationRequests = () => {
         throw new Error(err.message || "Erro ao acessar os dados");
       }
     },
-    retry: 2,
-    retryDelay: 1500,
+    retry: 1, // Reduzindo o número de tentativas automáticas
+    retryDelay: 1000,
   });
 
   const handleManualRetry = () => {
