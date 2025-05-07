@@ -69,15 +69,15 @@ const Navbar = () => {
             className="border-l border-white/10 bg-primary/95 backdrop-blur-md text-white flex flex-col h-auto max-h-[300px] rounded-bl-lg"
           >
             <nav className="flex flex-col gap-4 mt-8 items-end pr-6">
-              <Link to="/" className="text-lg font-medium flex items-center gap-2 p-2 rounded-md transition-colors">
+              <Link to="/" className="text-lg font-medium flex items-center gap-2 p-2 transition-colors">
                 <Home className="w-5 h-5" />
                 Início
               </Link>
-              <Link to="/sobre" className="text-lg font-medium flex items-center gap-2 p-2 rounded-md transition-colors">
+              <Link to="/sobre" className="text-lg font-medium flex items-center gap-2 p-2 transition-colors">
                 <Users className="w-5 h-5" />
                 Sobre Nós
               </Link>
-              <Link to="/localizacao" className="text-lg font-medium flex items-center gap-2 p-2 rounded-md transition-colors">
+              <Link to="/localizacao" className="text-lg font-medium flex items-center gap-2 p-2 transition-colors">
                 <MapPin className="w-5 h-5" />
                 Localização
               </Link>
