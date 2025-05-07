@@ -56,7 +56,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_all_simulation_requests: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          phone: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

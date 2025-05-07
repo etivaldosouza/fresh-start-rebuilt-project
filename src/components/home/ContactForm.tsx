@@ -1,7 +1,7 @@
 
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { toast } from "@/components/ui/sonner";
@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { Send, User, Phone, Mail } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -67,10 +68,21 @@ const ContactForm = () => {
   };
 
   return (
-    <section className="max-w-md mx-auto w-full">
-      <Card>
-        <CardContent className="pt-6">
-          <h3 className="text-xl font-semibold mb-4 text-center">Solicite uma Simulação</h3>
+    <section className="py-16" id="contato">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl font-bold mb-4 heading-gradient inline-block">Solicite uma Simulação</h2>
+        <p className="text-gray-500 max-w-2xl mx-auto">
+          Preencha o formulário abaixo e nossa equipe entrará em contato com você 
+          para apresentar a melhor solução financeira para seu perfil.
+        </p>
+      </div>
+      
+      <Card className="max-w-md mx-auto shadow-lg border-primary/10 overflow-hidden">
+        <div className="h-2 bg-gradient-to-r from-primary to-blue-400"></div>
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold text-center">Seus Dados</CardTitle>
+        </CardHeader>
+        <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
@@ -78,9 +90,12 @@ const ContactForm = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nome</FormLabel>
+                    <FormLabel>Nome Completo</FormLabel>
                     <FormControl>
-                      <Input placeholder="Seu nome completo" {...field} />
+                      <div className="relative">
+                        <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                        <Input placeholder="Seu nome completo" className="pl-10" {...field} />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -93,7 +108,10 @@ const ContactForm = () => {
                   <FormItem>
                     <FormLabel>Telefone</FormLabel>
                     <FormControl>
-                      <Input placeholder="(00) 00000-0000" type="tel" {...field} />
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                        <Input placeholder="(00) 00000-0000" type="tel" className="pl-10" {...field} />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -106,14 +124,23 @@ const ContactForm = () => {
                   <FormItem>
                     <FormLabel>E-mail</FormLabel>
                     <FormControl>
-                      <Input placeholder="seu@email.com" type="email" {...field} />
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                        <Input placeholder="seu@email.com" type="email" className="pl-10" {...field} />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
+              <Button 
+                type="submit" 
+                className="w-full gap-2 mt-4" 
+                disabled={isSubmitting}
+                size="lg"
+              >
                 {isSubmitting ? "Enviando..." : "Solicitar Simulação"}
+                {!isSubmitting && <Send className="h-4 w-4" />}
               </Button>
             </form>
           </Form>

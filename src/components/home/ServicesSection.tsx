@@ -1,49 +1,82 @@
 
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check, ShieldCheck } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 const ServicesSection = () => {
   return (
-    <section className="grid md:grid-cols-2 gap-8">
-      <Card className="bg-white/5 backdrop-blur border-primary/10">
-        <CardContent className="pt-6">
-          <h3 className="text-xl font-semibold mb-4">Aposentados e Pensionistas do INSS</h3>
-          <ul className="space-y-2 text-gray-500">
-            <li className="flex items-center gap-2">
-              <ArrowRight className="w-4 h-4 text-primary" />
-              Melhores taxas do mercado
-            </li>
-            <li className="flex items-center gap-2">
-              <ArrowRight className="w-4 h-4 text-primary" />
-              Até 120 meses para pagar
-            </li>
-            <li className="flex items-center gap-2">
-              <ArrowRight className="w-4 h-4 text-primary" />
-              Liberação rápida
-            </li>
-          </ul>
-        </CardContent>
-      </Card>
+    <section id="services" className="py-16">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl font-bold mb-4 heading-gradient inline-block">Nossos Serviços</h2>
+        <p className="text-gray-500 max-w-2xl mx-auto">
+          Oferecemos soluções financeiras personalizadas para atender às suas necessidades.
+        </p>
+      </div>
+    
+      <div className="grid md:grid-cols-2 gap-8">
+        <Card className="overflow-hidden hover-card border-primary/10">
+          <div className="h-2 bg-gradient-to-r from-primary to-blue-400"></div>
+          <CardContent className="pt-6">
+            <div className="flex items-start gap-4">
+              <div className="bg-primary/10 p-3 rounded-full">
+                <ShieldCheck className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-4">Aposentados e Pensionistas do INSS</h3>
+                <ul className="space-y-3 text-gray-500">
+                  <li className="flex items-center gap-2">
+                    <Check className="w-5 h-5 text-primary" />
+                    <span>Melhores taxas do mercado</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="w-5 h-5 text-primary" />
+                    <span>Até 120 meses para pagar</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="w-5 h-5 text-primary" />
+                    <span>Liberação rápida</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="w-5 h-5 text-primary" />
+                    <span>Atendimento personalizado</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-      <Card className="bg-white/5 backdrop-blur border-primary/10">
-        <CardContent className="pt-6">
-          <h3 className="text-xl font-semibold mb-4">Servidores Públicos</h3>
-          <ul className="space-y-2 text-gray-500">
-            <li className="flex items-center gap-2">
-              <ArrowRight className="w-4 h-4 text-primary" />
-              Federais, Estaduais e Municipais
-            </li>
-            <li className="flex items-center gap-2">
-              <ArrowRight className="w-4 h-4 text-primary" />
-              Condições especiais
-            </li>
-            <li className="flex items-center gap-2">
-              <ArrowRight className="w-4 h-4 text-primary" />
-              Atendimento personalizado
-            </li>
-          </ul>
-        </CardContent>
-      </Card>
+        <Card className="overflow-hidden hover-card border-primary/10">
+          <div className="h-2 bg-gradient-to-r from-blue-400 to-primary"></div>
+          <CardContent className="pt-6">
+            <div className="flex items-start gap-4">
+              <div className="bg-primary/10 p-3 rounded-full">
+                <ShieldCheck className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-4">Servidores Públicos</h3>
+                <ul className="space-y-3 text-gray-500">
+                  <li className="flex items-center gap-2">
+                    <Check className="w-5 h-5 text-primary" />
+                    <span>Federais, Estaduais e Municipais</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="w-5 h-5 text-primary" />
+                    <span>Condições especiais</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="w-5 h-5 text-primary" />
+                    <span>Atendimento personalizado</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="w-5 h-5 text-primary" />
+                    <span>Prazos estendidos</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </section>
   );
 };

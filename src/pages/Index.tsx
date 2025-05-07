@@ -6,11 +6,17 @@ import ContactForm from "@/components/home/ContactForm";
 
 const Index = () => {
   return (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col space-y-8 md:space-y-0">
       <HeroSection />
       <ServicesSection />
-      <PortabilitySection />
-      <ContactForm />
+      <div className="bg-gradient-to-br from-accent/50 to-background py-12">
+        <div className="container">
+          <PortabilitySection />
+        </div>
+      </div>
+      <div className="container">
+        <ContactForm />
+      </div>
     </div>
   );
 };
