@@ -64,7 +64,10 @@ const Navbar = () => {
               <Menu className="w-5 h-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="border-l border-white/10 bg-primary/95 backdrop-blur-md text-white">
+          <SheetContent 
+            side="right" 
+            className="border-l border-white/10 bg-primary/95 backdrop-blur-md text-white flex flex-col h-auto max-h-[300px] rounded-bl-lg"
+          >
             <nav className="flex flex-col gap-4 mt-8">
               <Link to="/" className="text-lg font-medium flex items-center gap-2 p-2 hover:bg-white/10 rounded-md transition-colors">
                 <Home className="w-5 h-5" />
