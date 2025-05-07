@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { MessageSquare, ArrowRight } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 
 const HeroSection = () => {
   return (
@@ -36,17 +36,6 @@ const HeroSection = () => {
             >
               <MessageSquare className="w-5 h-5" />
               Simular Agora
-            </a>
-          </Button>
-          
-          <Button 
-            asChild
-            variant="outline" 
-            size="lg" 
-            className="gap-2 text-base px-6 py-6 rounded-full border-primary/20 hover:border-primary shadow-lg hover:shadow-primary/10"
-          >
-            <a href="#services">
-              Nossos Serviços <ArrowRight className="w-4 h-4" />
             </a>
           </Button>
         </div>
