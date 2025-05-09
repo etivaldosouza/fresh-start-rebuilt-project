@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Home, Menu, Users, MapPin, LockKeyhole } from "lucide-react";
+import { Home, Menu, Users, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useEffect, useState } from "react";
@@ -81,10 +81,6 @@ const Navbar = () => {
                 <MapPin className="w-5 h-5" />
                 Localização
               </Link>
-              <Link to="/login" className="text-lg font-medium flex items-center gap-2 p-2 transition-colors hover:text-white/80">
-                <LockKeyhole className="w-5 h-5" />
-                {isLoggedIn ? "Admin" : "Acesso Admin"}
-              </Link>
             </nav>
           </SheetContent>
         </Sheet>
@@ -102,10 +98,6 @@ const Navbar = () => {
           <Link to="/localizacao" className="text-sm font-medium text-white hover:text-white/90 transition-colors flex items-center gap-2">
             <MapPin className="w-4 h-4" />
             Localização
-          </Link>
-          <Link to="/login" className="text-sm font-medium text-white hover:text-white/90 transition-colors flex items-center gap-2">
-            <LockKeyhole className="w-4 h-4" />
-            {isLoggedIn ? "Admin" : "Acesso Admin"}
           </Link>
         </div>
       </div>
