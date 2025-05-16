@@ -1,6 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SimulationRequestsTable } from "@/components/admin/SimulationRequestsTable";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { InfoIcon, LogOut } from "lucide-react";
@@ -9,6 +10,17 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/sonner";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+
+// Create a new QueryClient instance that will be used exclusively for this component
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 3,
+      staleTime: 30000,
+    },
+  },
+});
 
 const Admin = () => {
   const [loading, setLoading] = useState(true);
@@ -115,7 +127,9 @@ const Admin = () => {
               <TabsTrigger value="simulacoes">Solicitações de Simulação</TabsTrigger>
             </TabsList>
             <TabsContent value="simulacoes">
-              <SimulationRequestsTable />
+              <QueryClientProvider client={queryClient}>
+                <SimulationRequestsTable />
+              </QueryClientProvider>
             </TabsContent>
           </Tabs>
         </CardContent>
