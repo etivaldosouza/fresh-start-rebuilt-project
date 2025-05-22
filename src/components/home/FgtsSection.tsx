@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { WhatsApp } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 
 const FgtsSection = () => {
   const handleWhatsAppClick = () => {
@@ -29,7 +29,7 @@ const FgtsSection = () => {
           size="lg"
           className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-3 rounded-lg transition-all transform hover:scale-105 flex items-center gap-2 text-lg"
         >
-          <WhatsApp className="h-5 w-5" />
+          <MessageSquare className="h-5 w-5" />
           FGTS ANTECIPE AGORA
         </Button>
       </div>
