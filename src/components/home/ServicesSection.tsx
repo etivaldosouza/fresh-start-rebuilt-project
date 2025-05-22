@@ -16,13 +16,13 @@ const ServicesSection = () => {
         <Card className="overflow-hidden hover-card border-primary/10 h-full">
           <div className="h-2 bg-gradient-to-r from-primary to-blue-400"></div>
           <CardContent className="pt-6">
-            <div className="flex flex-col sm:flex-row items-start gap-4">
-              <div className="bg-primary/10 p-3 rounded-full shrink-0">
+            <div className="flex flex-col items-center text-center">
+              <div className="bg-primary/10 p-3 rounded-full shrink-0 mb-4">
                 <ShieldCheck className="w-6 h-6 text-primary" />
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-4">Aposentados e Pensionistas do INSS</h3>
-                <ul className="space-y-3 text-gray-600">
+                <ul className="space-y-3 text-gray-600 text-left">
                   <li className="flex items-center gap-2">
                     <Check className="w-5 h-5 text-primary shrink-0" />
                     <span>Melhores taxas do mercado</span>
@@ -48,13 +48,13 @@ const ServicesSection = () => {
         <Card className="overflow-hidden hover-card border-primary/10 h-full">
           <div className="h-2 bg-gradient-to-r from-blue-400 to-primary"></div>
           <CardContent className="pt-6">
-            <div className="flex flex-col sm:flex-row items-start gap-4">
-              <div className="bg-primary/10 p-3 rounded-full shrink-0">
+            <div className="flex flex-col items-center text-center">
+              <div className="bg-primary/10 p-3 rounded-full shrink-0 mb-4">
                 <ShieldCheck className="w-6 h-6 text-primary" />
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-4">Servidores Públicos</h3>
-                <ul className="space-y-3 text-gray-600">
+                <ul className="space-y-3 text-gray-600 text-left">
                   <li className="flex items-center gap-2">
                     <Check className="w-5 h-5 text-primary shrink-0" />
                     <span>Federais, Estaduais e Municipais</span>
