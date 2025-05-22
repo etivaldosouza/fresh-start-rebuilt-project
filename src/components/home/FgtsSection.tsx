@@ -27,7 +27,7 @@ const FgtsSection = () => {
         <Button 
           onClick={handleWhatsAppClick}
           size="lg"
-          className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-3 rounded-lg transition-all transform hover:scale-105 flex items-center gap-2 text-lg"
+          className="font-medium px-6 py-3 text-lg transition-all transform hover:scale-105"
         >
           <MessageSquare className="h-5 w-5" />
           FGTS ANTECIPE AGORA
