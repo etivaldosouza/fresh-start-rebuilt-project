@@ -1,8 +1,18 @@
 
 import { Badge } from "@/components/ui/badge";
-import { ArrowRightLeft, CheckCircle2, Clock, Award } from "lucide-react";
+import { ArrowRightLeft, CheckCircle2, Clock, Award, MessageSquare } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const PortabilitySection = () => {
+  const handleWhatsAppClick = () => {
+    // Using the same phone number
+    const phoneNumber = "5598981878948";
+    const message = "Olá! Gostaria de informações sobre portabilidade bancária.";
+    
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
   return (
     <section className="py-16">
       <div className="text-center mb-12">
@@ -47,17 +57,11 @@ const PortabilitySection = () => {
       
       <div className="mt-12 text-center">
         <Button 
-          asChild
+          onClick={handleWhatsAppClick}
           className="gap-2 rounded-full"
         >
-          <a 
-            href="https://wa.me/5598981878948" 
-            target="_blank" 
-            rel="noopener noreferrer"
-          >
-            <ArrowRightLeft className="w-4 h-4" />
-            Fazer Portabilidade
-          </a>
+          <MessageSquare className="w-4 h-4" />
+          Fazer Portabilidade
         </Button>
       </div>
     </section>
@@ -65,6 +69,3 @@ const PortabilitySection = () => {
 };
 
 export default PortabilitySection;
-
-// We need to import the Button component
-import { Button } from "@/components/ui/button";

@@ -5,8 +5,8 @@ import { MessageSquare } from "lucide-react";
 
 const FgtsSection = () => {
   const handleWhatsAppClick = () => {
-    // Replace with your actual WhatsApp number and pre-filled message
-    const phoneNumber = "5500000000000"; // Format: country code + phone number without +
+    // Using the same phone number as other components
+    const phoneNumber = "5598981878948";
     const message = "Olá! Gostaria de mais informações sobre a antecipação do FGTS.";
     
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;

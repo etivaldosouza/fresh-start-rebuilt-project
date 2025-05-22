@@ -4,6 +4,15 @@ import { Button } from "@/components/ui/button";
 import { MessageSquare } from "lucide-react";
 
 const HeroSection = () => {
+  const handleWhatsAppClick = () => {
+    // Using the same phone number
+    const phoneNumber = "5598981878948";
+    const message = "Olá! Gostaria de simular um empréstimo consignado.";
+    
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
   return (
     <section className="relative flex flex-col items-center justify-center gap-8 text-center py-16" aria-labelledby="hero-heading">
       {/* Background circles para design moderno */}
@@ -28,19 +37,12 @@ const HeroSection = () => {
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
           <Button 
-            asChild
+            onClick={handleWhatsAppClick}
             size="lg" 
             className="gap-2 text-base px-6 py-6 rounded-full shadow-lg hover:shadow-primary/20"
           >
-            <a 
-              href="https://wa.me/5598981878948" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              aria-label="Simular empréstimo pelo WhatsApp"
-            >
-              <MessageSquare className="w-5 h-5" aria-hidden="true" />
-              Simular Agora
-            </a>
+            <MessageSquare className="w-5 h-5" aria-hidden="true" />
+            Simular Agora
           </Button>
         </div>
       </div>
