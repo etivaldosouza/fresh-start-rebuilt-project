@@ -4,6 +4,7 @@ import HeroSection from "@/components/home/HeroSection";
 import ServicesSection from "@/components/home/ServicesSection";
 import PortabilitySection from "@/components/home/PortabilitySection";
 import FgtsSection from "@/components/home/FgtsSection";
+import ContactForm from "@/components/home/ContactForm";
 import { Helmet } from "react-helmet-async";
 
 const Index = () => {
@@ -33,6 +34,12 @@ const Index = () => {
       <section id="fgts" className="py-4">
         <div className="container">
           <FgtsSection />
+        </div>
+      </section>
+      
+      <section id="contato" className="py-4">
+        <div className="container">
+          <ContactForm />
         </div>
       </section>
     </main>
