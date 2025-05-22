@@ -14,7 +14,7 @@ const HeroSection = () => {
         <img 
           src="/lovable-uploads/bc0c7039-437a-45d4-91ec-5a887f5ed6ca.png" 
           alt="KF Empréstimos Logo" 
-          className="h-24 md:h-36 mb-4 mx-auto" 
+          className="aspect-square w-auto h-24 md:h-36 mb-4 mx-auto object-contain" 
           width="144"
           height="144"
         />
